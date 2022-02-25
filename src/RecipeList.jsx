@@ -5,16 +5,21 @@ const RecipeList = ({ recipeListArr, userIngredients }) => {
 
   //go though recipes and create new array of matched ingredients
   let selectRecipes = [];
-  const handleSubmit = () => {
-    // return (selectRecipes = recipeListArr.map((recipe) => {
-    //   console.log(recipe["ingredients"]);
-    //   if (recipe["ingredients"].includes("pepperoni")) {
-    //     return recipe;
-    //   }
-    // }));
-  };
-  console.log("select recipes:", selectRecipes);
 
+  const handleSubmit = () => {
+    for (let recipe of recipeListArr) {
+    for (let i=0; i < userIngredients.length; i++)
+    {
+      if(recipe['ingredient'].includes(userIngredients[i])){
+        selectRecipes.push(recipe)
+      }
+    }
+    }
+    console.log(selectRecipes)
+    return selectRecipes
+  };
+
+console.log(selectRecipes)
   return (
     <main>
       <button type="submit" id="findRecipe" onClick={handleSubmit}>
@@ -29,6 +34,7 @@ const RecipeList = ({ recipeListArr, userIngredients }) => {
         );
       })}
     </main>
+    
   );
 };
 
