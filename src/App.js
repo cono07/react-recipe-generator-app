@@ -1,4 +1,9 @@
 import "./App.css";
+import RecipeList from "./RecipeList";
+import AddUserIngredients from "./AddUserIngredients";
+import Header from "./Header";
+import AddingIngredientsToScreen from "./AddingIngredientToScreen";
+import { useState } from "react";
 
 function App() {
   const recipeListArr = [
@@ -31,75 +36,25 @@ function App() {
 
   const uniqueIngredients = [...new Set(allRecipes)];
 
+  const [userIngredients, setUserIngredients] = useState([]);
+  console.log("all ingredients:", userIngredients);
+
   return (
     <div className="App">
       <Header></Header>
-      <UserIngredients ingredients={uniqueIngredients}></UserIngredients>
-      <RecipeList recipeListArr={recipeListArr}></RecipeList>
+      <AddUserIngredients
+        uniqueIngredients={uniqueIngredients}
+        setUserIngredients={setUserIngredients}
+      ></AddUserIngredients>
+      <AddingIngredientsToScreen
+        ingredientsArray={userIngredients}
+      ></AddingIngredientsToScreen>
+      <RecipeList
+        recipeListArr={recipeListArr}
+        userIngredients={userIngredients}
+      ></RecipeList>
     </div>
   );
 }
 
 export default App;
-
-const Header = () => {
-  return (
-    <header>
-      <h1>Recipe App</h1>
-      <p>
-        Welcome to our recipe app. Please add some ingredients to find some
-        recipes!
-      </p>
-    </header>
-  );
-};
-
-const DropdownIngredients = ({ ingredients }) => {
-  console.log("in comp: ", ingredients);
-  return (
-    <select name="ingredients" id="ingredients">
-      {ingredients.map((ingredient) => {
-        return <option key={ingredient}>{ingredient}</option>;
-      })}
-    </select>
-  );
-};
-
-const UserIngredients = ({ ingredients }) => {
-  return (
-    <form>
-      <label>Please type an ingredient here to add it to your list: </label>
-      <DropdownIngredients ingredients={ingredients}></DropdownIngredients>
-      <button type="submit" id="submitButton">
-        Add Ingredient
-      </button>
-      <button type="submit" id="findRecipe">
-        Find Recipe
-      </button>
-    </form>
-  );
-};
-
-const RecipeList = ({ recipeListArr }) => {
-  return (
-    <main>
-      {recipeListArr.map((recipe) => {
-        return (
-          <div className="recipeItemContainer" key={recipe.recipeName}>
-            <h2 className="recipeTitle">{recipe.recipeName}</h2>
-            <p className="ingredientsTitle">Ingredients:</p>
-            <ul className="ingredientsList">
-              {recipe["ingredient"].map((ingredient) => {
-                return (
-                  <li className="ingredientItem" key={ingredient}>
-                    {ingredient}
-                  </li>
-                );
-              })}
-            </ul>
-          </div>
-        );
-      })}
-    </main>
-  );
-};
